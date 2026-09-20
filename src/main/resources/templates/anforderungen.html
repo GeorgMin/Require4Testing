@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Require4Testing - Anforderungen</title>
+</head>
+
+<body>
+
+    <h1>Require4Testing</h1>
+    <h2>Anforderungen verwalten</h2>
+
+    <h3>Neue Anforderung erstellen</h3>
+
+    <form th:action="@{/anforderungen}" th:object="${anforderung}" method="post">
+
+        <label for="titel">Titel:</label><br>
+        <input type="text" id="titel" th:field="*{titel}" required>
+
+        <br><br>
+
+        <label for="beschreibung">Beschreibung:</label><br>
+        <textarea id="beschreibung"
+                  th:field="*{beschreibung}"
+                  rows="4"
+                  cols="50"></textarea>
+
+        <br><br>
+
+        <button type="submit">Anforderung speichern</button>
+
+    </form>
+
+    <hr>
+
+    <h3>Vorhandene Anforderungen</h3>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titel</th>
+                <th>Beschreibung</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="anforderung : ${anforderungen}">
+                <td th:text="${anforderung.id}"></td>
+                <td th:text="${anforderung.titel}"></td>
+                <td th:text="${anforderung.beschreibung}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

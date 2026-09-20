@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Require4Testing - Tester</title>
+</head>
+
+<body>
+
+    <h1>Require4Testing</h1>
+
+    <p>
+        <a href="/anforderungen">Anforderungen</a> |
+        <a href="/testlaeufe">Testläufe</a> |
+        <a href="/testfaelle">Testfälle</a> |
+        <a href="/tester">Tester</a>
+    </p>
+
+    <h2>Tester verwalten</h2>
+
+    <h3>Neuen Tester anlegen</h3>
+
+    <form th:action="@{/tester}" th:object="${tester}" method="post">
+
+        <label for="name">Name:</label><br>
+
+        <input type="text"
+               id="name"
+               th:field="*{name}"
+               required>
+
+        <br><br>
+
+        <button type="submit">Tester speichern</button>
+
+    </form>
+
+    <hr>
+
+    <h3>Vorhandene Tester</h3>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="tester : ${testerListe}">
+                <td th:text="${tester.id}"></td>
+                <td th:text="${tester.name}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

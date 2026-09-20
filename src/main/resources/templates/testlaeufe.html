@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Require4Testing - Testläufe</title>
+</head>
+
+<body>
+
+    <h1>Require4Testing</h1>
+
+    <p>
+        <a href="/anforderungen">Anforderungen</a> |
+        <a href="/testlaeufe">Testläufe</a> |
+        <a href="/testfaelle">Testfälle</a> |
+        <a href="/tester">Tester</a>
+    </p>
+
+    <h2>Testläufe verwalten</h2>
+
+    <h3>Neuen Testlauf anlegen</h3>
+
+    <form th:action="@{/testlaeufe}" th:object="${testlauf}" method="post">
+
+        <label for="name">Name:</label><br>
+        <input type="text"
+               id="name"
+               th:field="*{name}"
+               required>
+
+        <br><br>
+
+        <label for="beschreibung">Beschreibung:</label><br>
+        <textarea id="beschreibung"
+                  th:field="*{beschreibung}"
+                  rows="4"
+                  cols="50"></textarea>
+
+        <br><br>
+
+        <label for="tester">Tester:</label><br>
+        <select id="tester" th:field="*{tester}">
+            <option value="">-- Tester auswählen --</option>
+
+            <option th:each="tester : ${testerListe}"
+                    th:value="${tester.id}"
+                    th:text="${tester.name}">
+            </option>
+        </select>
+
+        <br><br>
+
+        <label>Testfälle:</label><br>
+
+        <div th:each="testfall : ${testfaelle}">
+            <input type="checkbox"
+                   th:field="*{testfaelle}"
+                   th:value="${testfall.id}">
+
+            <span th:text="${testfall.titel}"></span>
+        </div>
+
+        <br>
+
+        <button type="submit">Testlauf speichern</button>
+
+    </form>
+
+    <hr>
+
+    <h3>Vorhandene Testläufe</h3>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Beschreibung</th>
+                <th>Tester</th>
+                <th>Testfälle</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="testlauf : ${testlaeufe}">
+                <td th:text="${testlauf.id}"></td>
+                <td th:text="${testlauf.name}"></td>
+                <td th:text="${testlauf.beschreibung}"></td>
+
+                <td th:text="${testlauf.tester != null
+                              ? testlauf.tester.name
+                              : 'Kein Tester'}">
+                </td>
+
+                <td>
+                    <span th:if="${#lists.isEmpty(testlauf.testfaelle)}">
+                        Keine Testfälle
+                    </span>
+
+                    <span th:each="testfall, status : ${testlauf.testfaelle}">
+                        <span th:text="${testfall.titel}"></span>
+                        <span th:if="${!status.last}">, </span>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

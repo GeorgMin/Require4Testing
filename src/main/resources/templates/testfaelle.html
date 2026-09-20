@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Require4Testing - Testfälle</title>
+</head>
+
+<body>
+
+    <h1>Require4Testing</h1>
+
+    <p>
+        <a href="/anforderungen">Anforderungen</a> |
+        <a href="/testlaeufe">Testläufe</a> |
+        <a href="/testfaelle">Testfälle</a> |
+        <a href="/tester">Tester</a>
+    </p>
+
+    <h2>Testfälle verwalten</h2>
+
+    <h3>Neuen Testfall anlegen</h3>
+
+    <form th:action="@{/testfaelle}" th:object="${testfall}" method="post">
+
+        <label for="titel">Titel:</label><br>
+        <input type="text"
+               id="titel"
+               th:field="*{titel}"
+               required>
+
+        <br><br>
+
+        <label for="beschreibung">Beschreibung:</label><br>
+        <textarea id="beschreibung"
+                  th:field="*{beschreibung}"
+                  rows="4"
+                  cols="50"></textarea>
+
+        <br><br>
+
+        <label for="anforderung">Anforderung:</label><br>
+        <select id="anforderung" th:field="*{anforderung}" required>
+            <option value="">-- Anforderung auswählen --</option>
+
+            <option th:each="anforderung : ${anforderungen}"
+                    th:value="${anforderung.id}"
+                    th:text="${anforderung.titel}">
+            </option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">Testfall speichern</button>
+
+    </form>
+
+    <hr>
+
+    <h3>Vorhandene Testfälle</h3>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titel</th>
+                <th>Beschreibung</th>
+                <th>Anforderung</th>
+                <th>Ergebnis</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr th:each="testfall : ${testfaelle}">
+
+                <td th:text="${testfall.id}"></td>
+
+                <td th:text="${testfall.titel}"></td>
+
+                <td th:text="${testfall.beschreibung}"></td>
+
+                <td th:text="${testfall.anforderung != null
+                              ? testfall.anforderung.titel
+                              : 'Keine Anforderung'}">
+                </td>
+
+                <td>
+
+                    <form th:action="@{/testfaelle/ergebnis}" method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               th:value="${testfall.id}">
+
+                        <select name="ergebnis">
+
+                            <option value="OFFEN"
+                                    th:selected="${testfall.ergebnis == null
+                                    or testfall.ergebnis == 'OFFEN'}">
+                                OFFEN
+                            </option>
+
+                            <option value="BESTANDEN"
+                                    th:selected="${testfall.ergebnis == 'BESTANDEN'}">
+                                BESTANDEN
+                            </option>
+
+                            <option value="FEHLGESCHLAGEN"
+                                    th:selected="${testfall.ergebnis == 'FEHLGESCHLAGEN'}">
+                                FEHLGESCHLAGEN
+                            </option>
+
+                        </select>
+
+                        <button type="submit">
+                            Ergebnis speichern
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>
