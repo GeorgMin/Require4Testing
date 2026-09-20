@@ -37,8 +37,11 @@ Die Anwendung verwendet standardmäßig:
 - Datenbank: require4testing
 - Benutzer: root
 - Port: 3306
+### MySQL-Passwort setzen
 
-Das MySQL-Passwort wird aus der Umgebungsvariable `DB_PASSWORD` gelesen und ist aus Sicherheitsgründen nicht im Repository gespeichert.
+Unter Windows PowerShell muss vor dem Start das eigene MySQL-Passwort gesetzt werden:
+
+$env:DB_PASSWORD="DEIN_MYSQL_PASSWORT"
 
 ## Anwendung starten
 
