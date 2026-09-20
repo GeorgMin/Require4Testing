@@ -46,7 +46,9 @@ $env:DB_PASSWORD="DEIN_MYSQL_PASSWORT"
 ## Anwendung starten
 
 Unter Windows im Projektordner:
+
 .\mvnw.cmd spring-boot:run
+
 Anschließend ist die Anwendung erreichbar unter:
 
 http://localhost:8080/anforderungen
